@@ -1,4 +1,4 @@
-#About Project
+# About Project
 inotebook is your own personalised note taking app the stores your note in the cloud securily 
 # Getting Started with Create React App
 
