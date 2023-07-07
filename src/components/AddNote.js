@@ -10,6 +10,7 @@ export default function AddNote() {
   const handleclick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setnote({ title: "", description: "", tag: "" });
   };
   const onchange = (e) => {
     setnote({ ...note, [e.target.name]: e.target.value });
@@ -25,6 +26,9 @@ export default function AddNote() {
             placeholder="Enter a title"
             name="title"
             onChange={onchange}
+            minLength={5}
+            required
+            value={note.title}
           />
         </Form.Group>
 
@@ -35,6 +39,9 @@ export default function AddNote() {
             placeholder="Enter a description"
             name="description"
             onChange={onchange}
+            minLength={5}
+            required
+            value={note.description}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="tag">
@@ -44,9 +51,12 @@ export default function AddNote() {
             placeholder="Enter the tag eg personal ,proffessional etc."
             name="tag"
             onChange={onchange}
+            minLength={5}
+            required
+            value={note.tag}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={handleclick}>
+        <Button disabled={note.title.length<5 || note.description.length<5 || note.tag.length<5} variant="primary" type="submit" onClick={handleclick}>
           Add Note
         </Button>
       </Form>

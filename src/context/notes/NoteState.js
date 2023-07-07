@@ -16,7 +16,6 @@ const NoteState = (props) => {
       },
     });
     const json = await response.json();
-
     setNotes(json);
   };
 
@@ -51,7 +50,9 @@ const NoteState = (props) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5NDA2NGZhY2Y5Mzk3NTAzMTM3MzU3In0sImlhdCI6MTY4ODU0MzQwN30._AAM9t5BP9zPwsQ5EX5f1j9ryX8vDpbrzG12FboIPK0",
       },
     });
-  
+    // eslint-disable-next-line
+    const json = await response.json();
+
     const newNote = notes.filter((note) => {
       return note._id !== id;
     });
@@ -70,16 +71,18 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+    // eslint-disable-next-line
+    const json = await response.json();
+   
     // LOGIC to delete a note
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+    const newNotes = notes.map((note) => {
+      if (note._id === id) {
+        return { ...note, title, description, tag };
       }
-    }
+      return note;
+    });
+    // logic to edit in client
+    setNotes(newNotes);
   };
   return (
     <NoteContext.Provider
