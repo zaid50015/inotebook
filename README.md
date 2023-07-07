@@ -1,3 +1,5 @@
+#About Project
+inotebook is your own personalised note taking app the stores your note in the cloud securily 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
