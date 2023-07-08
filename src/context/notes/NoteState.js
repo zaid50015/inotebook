@@ -12,7 +12,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5NDA2NGZhY2Y5Mzk3NTAzMTM3MzU3In0sImlhdCI6MTY4ODU0MzQwN30._AAM9t5BP9zPwsQ5EX5f1j9ryX8vDpbrzG12FboIPK0",
+          localStorage.getItem("token")
       },
     });
     const json = await response.json();
@@ -27,7 +27,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5NDA2NGZhY2Y5Mzk3NTAzMTM3MzU3In0sImlhdCI6MTY4ODU0MzQwN30._AAM9t5BP9zPwsQ5EX5f1j9ryX8vDpbrzG12FboIPK0",
+          localStorage.getItem("token")
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -47,7 +47,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5NDA2NGZhY2Y5Mzk3NTAzMTM3MzU3In0sImlhdCI6MTY4ODU0MzQwN30._AAM9t5BP9zPwsQ5EX5f1j9ryX8vDpbrzG12FboIPK0",
+          localStorage.getItem("token")
       },
     });
     // eslint-disable-next-line
@@ -67,7 +67,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5NDA2NGZhY2Y5Mzk3NTAzMTM3MzU3In0sImlhdCI6MTY4ODU0MzQwN30._AAM9t5BP9zPwsQ5EX5f1j9ryX8vDpbrzG12FboIPK0",
+          localStorage.getItem("token")
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -84,9 +84,10 @@ const NoteState = (props) => {
     // logic to edit in client
     setNotes(newNotes);
   };
+  
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes }}
+      value={{ notes, addNote, deleteNote, editNote, getNotes}}
     >
       {props.children}
     </NoteContext.Provider>

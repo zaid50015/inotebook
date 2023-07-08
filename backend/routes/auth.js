@@ -22,16 +22,17 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    let success=false
     // Validating if any error has occurred due to above conditions are mismatch
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success,errors: errors.array() });
     }
 
     try {
       //Finding if user with same email exists or not
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(400).json({ email: "Email already exists" });
+        return res.status(400).json({success, email: "Email already exists" });
       }
       // size of salt
       const salt = bcrypt.genSaltSync(10);
@@ -46,9 +47,9 @@ router.post(
           id: user.id,
         },
       };
-      const awthToken = jwt.sign(data, JWT_SECRET_KEY);
-
-      res.json(awthToken);
+      const authToken = jwt.sign(data, JWT_SECRET_KEY);
+          success=true;
+      res.json({success,authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ error });
@@ -66,6 +67,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    let success=false;
     // Validating if any error has occurred due to above conditions are mismatch
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -75,13 +77,13 @@ router.post(
       let user = await User.findOne({email});
       // checinkg if the user with the above email exits or not
       if (!user) {
-        return res.status(400).json({ errors: "Invalid login credentials" });
+        return res.status(400).json({ success,errors: "Invalid login credentials" });
       }
       // Agar  uss email ke naam se user hai to check kare kya password sahi dala hai ki nhi
       let passwordEntered = bcrypt.compareSync(password, user.password);
     
       if (!passwordEntered) {
-        return res.status(400).json({ errors: "Invalid login credentials" });
+        return res.status(400).json({success, errors: "Invalid login credentials" });
       }
       // if sahi to ek token bhegdo usko taki baar baar aunthenticate na karna pade
       const data = {
@@ -89,9 +91,9 @@ router.post(
           id: user.id
         },
       };
-      const awthToken = jwt.sign(data, JWT_SECRET_KEY);
-
-      return res.json(awthToken);
+      const authToken = jwt.sign(data, JWT_SECRET_KEY);
+         success=true;
+      return res.json({success,authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error");

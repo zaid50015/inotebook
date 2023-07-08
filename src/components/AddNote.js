@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Context from "../context/notes/NoteContext";
 
-export default function AddNote() {
+export default function AddNote(props) {
   const context = useContext(Context);
   const { addNote } = context;
   const [note, setnote] = useState({ title: "", description: "", tag: "" });
@@ -11,12 +11,13 @@ export default function AddNote() {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
     setnote({ title: "", description: "", tag: "" });
+    props.showAlert("Note added successfully","success")
   };
   const onchange = (e) => {
     setnote({ ...note, [e.target.name]: e.target.value });
   };
-  return (
-    <div className="container my-3">
+  return (  <div className="container my-3">
+   
       <h1>Add a Note</h1>
       <Form className="my-3">
         <Form.Group className="mb-3" controlId="title">
@@ -56,7 +57,7 @@ export default function AddNote() {
             value={note.tag}
           />
         </Form.Group>
-        <Button disabled={note.title.length<5 || note.description.length<5 || note.tag.length<5} variant="primary" type="submit" onClick={handleclick}>
+        <Button disabled={note.title.length<5 || note.description.length<5 || note.tag.length<5} variant="danger" type="submit" onClick={handleclick}>
           Add Note
         </Button>
       </Form>
