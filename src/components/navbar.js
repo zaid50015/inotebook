@@ -5,10 +5,15 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link , useLocation } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
 function NavScrollExample() {
   let location = useLocation();
-
+  let navigate = useNavigate();
+const handleLogout=()=>{
+  localStorage.removeItem("token");
+  navigate('/login')
+}
   return (
     <Navbar
       expand="lg"
@@ -37,10 +42,10 @@ function NavScrollExample() {
               About
             </Nav.Link>
           </Nav>
-          <Form className="d-flex">
+         { !localStorage.getItem('token')? <Form className="d-flex">
           <Button as={Link} to={"/login"} className="mx-2" variant="outline-primary">LogIn</Button>
-          <Button as={Link} to={"/signup"}className="mx-2" variant="outline-primary">Sign</Button>
-          </Form>
+          <Button as={Link} to={"/signup"}className="mx-2" variant="outline-primary">SignUp</Button>
+          </Form>: <Button  onClick={handleLogout} className="mx-2" variant="outline-primary">Logout</Button>}
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -5,11 +5,11 @@ import Context from "../context/notes/NoteContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
-export default function Notes() {
+import {useNavigate} from 'react-router-dom';
+export default function Notes(props) {
   const context = useContext(Context);
   const { notes, getNotes,editNote } = context;
-
+  let navigate = useNavigate();
   const [note, setnote] = useState({
     id: "",
     etitle: "",
@@ -17,7 +17,11 @@ export default function Notes() {
     etag: "",
   });
   useEffect(() => {
+    if(localStorage.getItem("token"))
     getNotes();
+    else{
+      navigate("/login");
+    }
     // eslint-disable-next-line
   }, []);
   // Modal Bale function
@@ -41,10 +45,11 @@ export default function Notes() {
   };
   const handleclick = (e) => {
     editNote(note.id, note.etitle, note.edescription, note.etag);
+    props.showAlert("Updated sucessfully","success");
   };
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -118,7 +123,7 @@ export default function Notes() {
         </div>
         {notes.map((note) => {
           return (
-            <NoteItem key={note._id} updateNote={updateNote} note={note} />
+            <NoteItem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert} />
           );
         })}
       </div>
